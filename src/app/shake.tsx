@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from 'react';
 
 const getOS = (): string => {
@@ -20,9 +22,10 @@ const useShakeDetection = () => {
   const [os, setOs] = useState<string>('unknown');
 
   useEffect(() => {
+    
     const os = getOS();
     setOs(os);
-
+    
     const handleMotion = (event: DeviceMotionEvent) => {
       const acceleration = event.accelerationIncludingGravity;
       if (acceleration && acceleration.x !== null && acceleration.y !== null && acceleration.z !== null) {
@@ -38,7 +41,7 @@ const useShakeDetection = () => {
         }
       }
     };
-
+    
     const requestPermission = async () => {
       if (os === 'iOS' && typeof (DeviceMotionEvent as any).requestPermission === 'function') {
         try {
@@ -55,13 +58,13 @@ const useShakeDetection = () => {
         window.addEventListener('devicemotion', handleMotion as EventListener);
       }
     };
-
+    
     requestPermission();
 
     return () => {
       window.removeEventListener('devicemotion', handleMotion as EventListener);
     };
-  }, [isShaking]);
+  }, [os, isShaking]);
 
   return { shakeCount, os };
 };
