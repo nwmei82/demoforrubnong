@@ -23,10 +23,11 @@ const ShakeGame: FC = () => {
       <h1>Shake Game</h1>
       <h2>Shake Count: {shakeCount}</h2>
       <h3>Operating System: {os}</h3>
-      <h3>new one</h3>
     </div>
   );
 };
 
 export default ShakeGame;
+
+
 

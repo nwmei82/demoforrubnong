@@ -23,8 +23,24 @@ const useShakeDetection = () => {
     const os = getOS();
     setOs(os);
 
+    const handleMotion = (event: DeviceMotionEvent) => {
+      const acceleration = event.accelerationIncludingGravity;
+      if (acceleration && acceleration.x !== null && acceleration.y !== null && acceleration.z !== null) {
+        const totalAcceleration = Math.abs(acceleration.x) + Math.abs(acceleration.y) + Math.abs(acceleration.z);
+        console.log(`Acceleration: x=${acceleration.x}, y=${acceleration.y}, z=${acceleration.z}, total=${totalAcceleration}`);
+        if (totalAcceleration > 25) {
+          if (!isShaking) {
+            setShakeCount((prevCount) => prevCount + 1);
+            setIsShaking(true);
+          }
+        } else {
+          setIsShaking(false);
+        }
+      }
+    };
+
     const requestPermission = async () => {
-      if (os === 'iOS' && typeof DeviceMotionEvent !== 'undefined' && 'requestPermission' in DeviceMotionEvent) {
+      if (os === 'iOS' && typeof (DeviceMotionEvent as any).requestPermission === 'function') {
         try {
           const permissionState = await (DeviceMotionEvent as any).requestPermission();
           if (permissionState === 'granted') {
@@ -37,21 +53,6 @@ const useShakeDetection = () => {
         }
       } else {
         window.addEventListener('devicemotion', handleMotion as EventListener);
-      }
-    };
-
-    const handleMotion = (event: DeviceMotionEvent) => {
-      const acceleration = event.acceleration;
-      if (acceleration && acceleration.x !== null && acceleration.y !== null && acceleration.z !== null) {
-        const totalAcceleration = Math.abs(acceleration.x) + Math.abs(acceleration.y) + Math.abs(acceleration.z);
-        if (totalAcceleration > 25) {
-          if (!isShaking) {
-            setShakeCount((prevCount) => prevCount + 1);
-            setIsShaking(true);
-          }
-        } else {
-          setIsShaking(false);
-        }
       }
     };
 
