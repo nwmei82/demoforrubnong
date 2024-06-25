@@ -46,6 +46,7 @@ const useShakeDetection = () => {
       if (os === 'iOS' && typeof (DeviceMotionEvent as any).requestPermission === 'function') {
         try {
           const permissionState = await (DeviceMotionEvent as any).requestPermission();
+          debugger;
           if (permissionState === 'granted') {
             window.addEventListener('devicemotion', handleMotion as EventListener);
           } else {
