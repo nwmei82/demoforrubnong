@@ -32,7 +32,7 @@ const ShakeComponent = () => {
     if (acceleration && acceleration.x !== null && acceleration.y !== null && acceleration.z !== null) {
       const totalAcceleration = Math.abs(acceleration.x) + Math.abs(acceleration.y) + Math.abs(acceleration.z);
       console.log(`Acceleration: x=${acceleration.x}, y=${acceleration.y}, z=${acceleration.z}, total=${totalAcceleration}`);
-      if (totalAcceleration > 25) {
+      if (totalAcceleration >25) { //แก้ math ตรงนี้ด้วยนะจ๊ะ
         if (!isShaking) {
           setCount((prevCount) => prevCount + 1);
           setIsShaking(true);
