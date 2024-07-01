@@ -1,7 +1,7 @@
 "use client"
 
 import { FC } from 'react';
-import ShakeComponent from './shaketwo';
+import ShakeComponent from './shake';
 
 const ShakeGame: FC = () => {
 
